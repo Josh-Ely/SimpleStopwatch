@@ -93,7 +93,7 @@ namespace WorkCounter
             Greeting();
         }
 
-        private void timer_Tick_1(object sender, EventArgs e)
+        private void MainTimer_Tick(object sender, EventArgs e)
         {
             timeDisplayLabel.Text = string.Format("{0:hh\\:mm\\:ss}", stopwatch.Elapsed);
         }

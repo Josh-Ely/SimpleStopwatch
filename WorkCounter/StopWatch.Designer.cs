@@ -38,7 +38,7 @@
             this.greetingMessage = new System.Windows.Forms.Label();
             this.minimizeLabel = new System.Windows.Forms.Label();
             this.RefreshGreetingTimer = new System.Windows.Forms.Timer(this.components);
-            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.MainTimer = new System.Windows.Forms.Timer(this.components);
             this.titleBarPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,9 +49,10 @@
             this.exitLabel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.exitLabel.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.exitLabel.ForeColor = System.Drawing.Color.White;
-            this.exitLabel.Location = new System.Drawing.Point(741, 3);
+            this.exitLabel.Location = new System.Drawing.Point(305, 1);
+            this.exitLabel.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.exitLabel.Name = "exitLabel";
-            this.exitLabel.Size = new System.Drawing.Size(48, 52);
+            this.exitLabel.Size = new System.Drawing.Size(20, 21);
             this.exitLabel.TabIndex = 0;
             this.exitLabel.Text = "X";
             this.exitLabel.Click += new System.EventHandler(this.ExitLabel_Click);
@@ -61,9 +62,10 @@
             this.startButton.BackColor = System.Drawing.Color.Black;
             this.startButton.Font = new System.Drawing.Font("Segoe UI", 14.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.startButton.ForeColor = System.Drawing.Color.White;
-            this.startButton.Location = new System.Drawing.Point(47, 303);
+            this.startButton.Location = new System.Drawing.Point(19, 111);
+            this.startButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(233, 104);
+            this.startButton.Size = new System.Drawing.Size(96, 38);
             this.startButton.TabIndex = 2;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = false;
@@ -75,9 +77,10 @@
             this.timeDisplayLabel.BackColor = System.Drawing.Color.Transparent;
             this.timeDisplayLabel.Font = new System.Drawing.Font("Trebuchet MS", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.timeDisplayLabel.ForeColor = System.Drawing.SystemColors.Window;
-            this.timeDisplayLabel.Location = new System.Drawing.Point(47, 82);
+            this.timeDisplayLabel.Location = new System.Drawing.Point(19, 30);
+            this.timeDisplayLabel.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.timeDisplayLabel.Name = "timeDisplayLabel";
-            this.timeDisplayLabel.Size = new System.Drawing.Size(706, 200);
+            this.timeDisplayLabel.Size = new System.Drawing.Size(287, 81);
             this.timeDisplayLabel.TabIndex = 3;
             this.timeDisplayLabel.Text = "00:00:00";
             // 
@@ -86,9 +89,10 @@
             this.resetButton.BackColor = System.Drawing.Color.Black;
             this.resetButton.Font = new System.Drawing.Font("Segoe UI", 14.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.resetButton.ForeColor = System.Drawing.Color.White;
-            this.resetButton.Location = new System.Drawing.Point(493, 303);
+            this.resetButton.Location = new System.Drawing.Point(203, 111);
+            this.resetButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.resetButton.Name = "resetButton";
-            this.resetButton.Size = new System.Drawing.Size(233, 104);
+            this.resetButton.Size = new System.Drawing.Size(96, 38);
             this.resetButton.TabIndex = 9;
             this.resetButton.Text = "Reset";
             this.resetButton.UseVisualStyleBackColor = false;
@@ -99,9 +103,10 @@
             this.titleBarPanel.BackColor = System.Drawing.Color.Black;
             this.titleBarPanel.Controls.Add(this.greetingMessage);
             this.titleBarPanel.Controls.Add(this.minimizeLabel);
-            this.titleBarPanel.Location = new System.Drawing.Point(0, -1);
+            this.titleBarPanel.Location = new System.Drawing.Point(0, 0);
+            this.titleBarPanel.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.titleBarPanel.Name = "titleBarPanel";
-            this.titleBarPanel.Size = new System.Drawing.Size(807, 79);
+            this.titleBarPanel.Size = new System.Drawing.Size(332, 29);
             this.titleBarPanel.TabIndex = 10;
             this.titleBarPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleBarPanel_MouseDown);
             this.titleBarPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TitleBarPanel_MouseMove);
@@ -112,9 +117,10 @@
             this.greetingMessage.AutoSize = true;
             this.greetingMessage.Font = new System.Drawing.Font("Trebuchet MS", 14.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.greetingMessage.ForeColor = System.Drawing.Color.White;
-            this.greetingMessage.Location = new System.Drawing.Point(12, 10);
+            this.greetingMessage.Location = new System.Drawing.Point(5, 4);
+            this.greetingMessage.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.greetingMessage.Name = "greetingMessage";
-            this.greetingMessage.Size = new System.Drawing.Size(209, 59);
+            this.greetingMessage.Size = new System.Drawing.Size(83, 24);
             this.greetingMessage.TabIndex = 11;
             this.greetingMessage.Text = "Greeting";
             // 
@@ -123,10 +129,11 @@
             this.minimizeLabel.AutoSize = true;
             this.minimizeLabel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.minimizeLabel.ForeColor = System.Drawing.Color.White;
-            this.minimizeLabel.Location = new System.Drawing.Point(684, -2);
+            this.minimizeLabel.Location = new System.Drawing.Point(282, -1);
+            this.minimizeLabel.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.minimizeLabel.Name = "minimizeLabel";
-            this.minimizeLabel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 15);
-            this.minimizeLabel.Size = new System.Drawing.Size(42, 56);
+            this.minimizeLabel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.minimizeLabel.Size = new System.Drawing.Size(17, 20);
             this.minimizeLabel.TabIndex = 11;
             this.minimizeLabel.Text = "__";
             this.minimizeLabel.Click += new System.EventHandler(this.MinimizeLabel_Click);
@@ -137,18 +144,18 @@
             this.RefreshGreetingTimer.Interval = 60000;
             this.RefreshGreetingTimer.Tick += new System.EventHandler(this.RefreshGreetingTimer_Tick);
             // 
-            // timer
+            // MainTimer
             // 
-            this.timer.Enabled = true;
-            this.timer.Interval = 1000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick_1);
+            this.MainTimer.Enabled = true;
+            this.MainTimer.Interval = 1000;
+            this.MainTimer.Tick += new System.EventHandler(this.MainTimer_Tick);
             // 
             // StopWatch
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 41F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(801, 432);
+            this.ClientSize = new System.Drawing.Size(330, 158);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.timeDisplayLabel);
             this.Controls.Add(this.startButton);
@@ -156,6 +163,7 @@
             this.Controls.Add(this.titleBarPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.Name = "StopWatch";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Timer";
@@ -177,6 +185,6 @@
         private Label minimizeLabel;
         private System.Windows.Forms.Timer RefreshGreetingTimer;
         private Label greetingMessage;
-        private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Timer MainTimer;
     }
 }
