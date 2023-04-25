@@ -40,11 +40,6 @@ namespace WorkCounter
             startButton.Text = "Start";
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            timeDisplayLabel.Text = string.Format("{0:hh\\:mm\\:ss}", stopwatch.Elapsed);
-        }
-
         private void MinimizeLabel_Click(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
@@ -67,7 +62,6 @@ namespace WorkCounter
             {
                 this.Location = new Point(
                     (this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
-
                 this.Update();
             }
         }
@@ -96,6 +90,31 @@ namespace WorkCounter
         private void MainTimer_Tick(object sender, EventArgs e)
         {
             timeDisplayLabel.Text = string.Format("{0:hh\\:mm\\:ss}", stopwatch.Elapsed);
+        }
+
+        private void CloseButton_MouseEnter(object sender, EventArgs e)
+        {
+            closeButton.BackColor = Color.IndianRed;
+        }
+
+        private void CloseButton_MouseLeave(object sender, EventArgs e)
+        {
+            closeButton.BackColor = Color.Transparent;
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void MinimizeLabel_MouseEnter(object sender, EventArgs e)
+        {
+            minimizeLabel.BackColor = Color.DeepSkyBlue;
+        }
+
+        private void MinimizeLabel_MouseLeave(object sender, EventArgs e)
+        {
+            minimizeLabel.BackColor = Color.Transparent;
         }
     }
 }
