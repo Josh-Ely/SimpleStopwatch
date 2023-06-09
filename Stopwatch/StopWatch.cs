@@ -14,14 +14,9 @@ namespace WorkCounter
             stopwatch = new Stopwatch();
         }
 
-        private void ExitLabel_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void StartButton_Click(object sender, EventArgs e)
         {
-            if (startButton.Text.Equals("Start"))
+            if (startButton.Text.Equals("Start") || startButton.Text.Equals("Resume"))
             {
                 stopwatch.Start();
                 startButton.Text = "Pause";
@@ -29,7 +24,7 @@ namespace WorkCounter
             else
             {
                 stopwatch.Stop();
-                startButton.Text = "Start";
+                startButton.Text = "Resume";
             }
         }
 
@@ -38,11 +33,6 @@ namespace WorkCounter
             stopwatch.Restart();
             stopwatch.Stop();
             startButton.Text = "Start";
-        }
-
-        private void MinimizeLabel_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
         }
 
         private void TitleBarPanel_MouseUp(object sender, MouseEventArgs e)
@@ -107,14 +97,19 @@ namespace WorkCounter
             Application.Exit();
         }
 
-        private void MinimizeLabel_MouseEnter(object sender, EventArgs e)
+        private void MinimizeButton_MouseEnter(object sender, EventArgs e)
         {
-            minimizeLabel.BackColor = Color.DeepSkyBlue;
+            minimizeButton.BackColor = Color.DeepSkyBlue;
         }
 
-        private void MinimizeLabel_MouseLeave(object sender, EventArgs e)
+        private void MinimizeButton_MouseLeave(object sender, EventArgs e)
         {
-            minimizeLabel.BackColor = Color.Transparent;
+            minimizeButton.BackColor = Color.Transparent;
+        }
+
+        private void MinimizeButton_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
         }
     }
 }
