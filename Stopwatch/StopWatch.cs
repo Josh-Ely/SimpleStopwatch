@@ -30,9 +30,13 @@ namespace WorkCounter
 
         private void RestartButton_Click(object sender, EventArgs e)
         {
-            stopwatch.Restart();
-            stopwatch.Stop();
-            startButton.Text = "Start";
+            DialogResult result = MessageBox.Show("Are you sure you want to reset timer?", "Simple Stopwatch", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                stopwatch.Restart();
+                stopwatch.Stop();
+                startButton.Text = "Start";
+            }
         }
 
         private void TitleBarPanel_MouseUp(object sender, MouseEventArgs e)
@@ -97,14 +101,14 @@ namespace WorkCounter
             Application.Exit();
         }
 
-        private void MinimizeButton_MouseEnter(object sender, EventArgs e)
-        {
-            minimizeButton.BackColor = Color.DeepSkyBlue;
-        }
-
         private void MinimizeButton_MouseLeave(object sender, EventArgs e)
         {
             minimizeButton.BackColor = Color.Transparent;
+        }
+
+        private void MinimizeButton_MouseEnter(object sender, EventArgs e)
+        {
+            minimizeButton.BackColor = Color.DeepSkyBlue;
         }
 
         private void MinimizeButton_Click(object sender, EventArgs e)
