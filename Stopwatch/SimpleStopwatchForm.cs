@@ -1,61 +1,73 @@
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
-namespace WorkCounter
+namespace SimpleStopwatch
 {
-    public partial class StopWatch : Form
+    public partial class SimpleStopwatchForm : Form
     {
-        private bool mouseDown;
-        private Point lastLocation;
-        private readonly Stopwatch stopwatch;
+        private new bool MouseDown { get; set; }
+        private Point LastLocation { get; set; }
+        private Stopwatch Stopwatch { get; set; }
 
-        public StopWatch()
+        private const int AW_HIDE = 0x10000;
+        private const int AW_BLEND = 0x80000;
+
+        [DllImport("user32.dll")]
+        private static extern bool AnimateWindow(IntPtr hwnd, int dwTime, int dwFlags);
+
+        public SimpleStopwatchForm()
         {
             InitializeComponent();
-            stopwatch = new Stopwatch();
+            Stopwatch = new Stopwatch();
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
             if (startButton.Text.Equals("Start") || startButton.Text.Equals("Resume"))
             {
-                stopwatch.Start();
+                Stopwatch.Start();
                 startButton.Text = "Pause";
             }
             else
             {
-                stopwatch.Stop();
+                Stopwatch.Stop();
                 startButton.Text = "Resume";
             }
         }
 
         private void RestartButton_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure you want to reset timer?", "Simple Stopwatch", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if(!Stopwatch.IsRunning)
+            {
+                return;
+            }
+
+            DialogResult result = MessageBox.Show("Are you sure you want to reset the timer?", "Simple Stopwatch", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                stopwatch.Restart();
-                stopwatch.Stop();
+                Stopwatch.Restart();
+                Stopwatch.Stop();
                 startButton.Text = "Start";
             }
         }
 
         private void TitleBarPanel_MouseUp(object sender, MouseEventArgs e)
         {
-            mouseDown = false;
+            MouseDown = false;
         }
 
         private void TitleBarPanel_MouseDown(object sender, MouseEventArgs e)
         {
-            mouseDown = true;
-            lastLocation = e.Location;
+            MouseDown = true;
+            LastLocation = e.Location;
         }
 
         private void TitleBarPanel_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mouseDown)
+            if (MouseDown)
             {
                 this.Location = new Point(
-                    (this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
+                    (this.Location.X - LastLocation.X) + e.X, (this.Location.Y - LastLocation.Y) + e.Y);
                 this.Update();
             }
         }
@@ -83,7 +95,7 @@ namespace WorkCounter
 
         private void MainTimer_Tick(object sender, EventArgs e)
         {
-            timeDisplayLabel.Text = string.Format("{0:hh\\:mm\\:ss}", stopwatch.Elapsed);
+            timeElapsedLabel.Text = string.Format("{0:hh\\:mm\\:ss}", Stopwatch.Elapsed);
         }
 
         private void CloseButton_MouseEnter(object sender, EventArgs e)
@@ -98,6 +110,7 @@ namespace WorkCounter
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
+            AnimateWindow(this.Handle, 75, AW_HIDE | AW_BLEND);
             Application.Exit();
         }
 
@@ -113,7 +126,7 @@ namespace WorkCounter
 
         private void MinimizeButton_Click(object sender, EventArgs e)
         {
-            WindowState = FormWindowState.Minimized;
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
