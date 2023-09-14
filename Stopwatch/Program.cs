@@ -1,4 +1,4 @@
-namespace WorkCounter
+namespace SimpleStopwatch
 {
     internal static class Program
     {
@@ -8,8 +8,18 @@ namespace WorkCounter
         [STAThread]
         static void Main()
         {
-            ApplicationConfiguration.Initialize();
-            Application.Run(new StopWatch());
+            try
+            {
+                // Initialize application configuration
+                ApplicationConfiguration.Initialize();
+
+                // starts the application with the main form
+                Application.Run(new SimpleStopwatchForm());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Simple Stopwatch", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
