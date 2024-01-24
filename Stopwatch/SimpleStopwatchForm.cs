@@ -1,19 +1,10 @@
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 namespace SimpleStopwatch
 {
     public partial class SimpleStopwatchForm : Form
     {
-        private new bool MouseDown { get; set; }
-        private Point LastLocation { get; set; }
         private Stopwatch Stopwatch { get; set; }
-
-        private const int AW_HIDE = 0x10000;
-        private const int AW_BLEND = 0x80000;
-
-        [DllImport("user32.dll")]
-        private static extern bool AnimateWindow(IntPtr hwnd, int dwTime, int dwFlags);
 
         public SimpleStopwatchForm()
         {
@@ -21,57 +12,54 @@ namespace SimpleStopwatch
             Stopwatch = new Stopwatch();
         }
 
+        /// <summary>
+        /// Allows the user to start, resume, or stop the stopwatch
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StartButton_Click(object sender, EventArgs e)
         {
             if (startButton.Text.Equals("Start") || startButton.Text.Equals("Resume"))
             {
+                // starts the stopwatch
                 Stopwatch.Start();
+
+                // changes the button text so user knows the timer can be paused once it starts
                 startButton.Text = "Pause";
             }
             else
             {
+                // the text of the button is "Pause" so the stopwatch is stopped
                 Stopwatch.Stop();
+
+                // changes the button text so user knows the stopwatch can be resumed after its paused 
                 startButton.Text = "Resume";
             }
         }
 
+        /// <summary>
+        /// Allows the user to reset/restart the stopwatch
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RestartButton_Click(object sender, EventArgs e)
         {
-            if(!Stopwatch.IsRunning)
-            {
-                return;
-            }
-
-            DialogResult result = MessageBox.Show("Are you sure you want to reset the timer?", "Simple Stopwatch", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            // shows a message box asking the user to confirm they want to restart the stopwatch
+            DialogResult result = MessageBox.Show("Reset the stopwatch?", "Simple Stopwatch", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
+                // restarts the stopwatch
                 Stopwatch.Restart();
                 Stopwatch.Stop();
+
+                // changes button text to "Start" so the user knows the stopwatch can be started again
                 startButton.Text = "Start";
             }
         }
 
-        private void TitleBarPanel_MouseUp(object sender, MouseEventArgs e)
-        {
-            MouseDown = false;
-        }
-
-        private void TitleBarPanel_MouseDown(object sender, MouseEventArgs e)
-        {
-            MouseDown = true;
-            LastLocation = e.Location;
-        }
-
-        private void TitleBarPanel_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (MouseDown)
-            {
-                this.Location = new Point(
-                    (this.Location.X - LastLocation.X) + e.X, (this.Location.Y - LastLocation.Y) + e.Y);
-                this.Update();
-            }
-        }
-
+        /// <summary>
+        /// Displays a greeting message based on the time of the day
+        /// </summary>
         private void Greeting()
         {
             if (DateTime.Now.Hour < 12)
@@ -82,51 +70,121 @@ namespace SimpleStopwatch
                 greetingMessage.Text = "Good Evening";
         }
 
+        /// <summary>
+        /// Shows the greeting when the form first loads
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StopWatch_Load(object sender, EventArgs e)
         {
             Greeting();
             greetingMessage.Select();
         }
 
+        /// <summary>
+        /// Updates the greeting message 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RefreshGreetingTimer_Tick(object sender, EventArgs e)
         {
             Greeting();
         }
 
+        /// <summary>
+        /// Updates the timeElapsedLabel with the elapsed time from the stopwatch
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainTimer_Tick(object sender, EventArgs e)
         {
             timeElapsedLabel.Text = string.Format("{0:hh\\:mm\\:ss}", Stopwatch.Elapsed);
         }
 
-        private void CloseButton_MouseEnter(object sender, EventArgs e)
+        /// <summary>
+        /// Allows the user to save time to an existing file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            closeButton.BackColor = Color.IndianRed;
+            // can only save as a txt file
+            OpenFileDialog openFileDialog = new()
+            {
+                Title = "Save Time to an Existing File",
+                Filter = "Text Files|*.txt"
+            };
+
+            // shows the open file dialog form
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // writes the elapsed time to the existing file
+                using StreamWriter writer = new(openFileDialog.FileName, true);
+                writer.WriteLine(DateTime.Now.ToString("MM/dd/yyyy - ") + string.Format("{0:hh\\:mm\\:ss}", Stopwatch.Elapsed));
+            }
         }
 
-        private void CloseButton_MouseLeave(object sender, EventArgs e)
+        /// <summary>
+        /// Allows the user to save time as a new file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            closeButton.BackColor = Color.Transparent;
+            // can only save as a txt file
+            SaveFileDialog saveFileDialog = new()
+            {
+                Filter = "Text Files|*.txt",
+                Title = "Save Time as Text File"
+            };
+
+            // shows the save dialog form
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // writes the elapsed time to the new file
+                using StreamWriter writer = new(saveFileDialog.FileName);
+                writer.WriteLine(DateTime.Now.ToString("MM/dd/yyyy - ") + string.Format("{0:hh\\:mm\\:ss}", Stopwatch.Elapsed));
+            }
         }
 
-        private void CloseButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Only shows the time elapsed label
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowOnlyTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AnimateWindow(this.Handle, 75, AW_HIDE | AW_BLEND);
-            Application.Exit();
+            HideComponents();
         }
 
-        private void MinimizeButton_MouseLeave(object sender, EventArgs e)
+        /// <summary>
+        /// Shows all components (greeting & buttons)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ResetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            minimizeButton.BackColor = Color.Transparent;
+            ShowComponents();
         }
 
-        private void MinimizeButton_MouseEnter(object sender, EventArgs e)
+        /// <summary>
+        /// Makes components invisible
+        /// </summary>
+        private void HideComponents()
         {
-            minimizeButton.BackColor = Color.DeepSkyBlue;
+            resetButton.Hide();
+            startButton.Hide();
+            greetingMessage.Hide();
         }
 
-        private void MinimizeButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Makes components visible
+        /// </summary>
+        private void ShowComponents()
         {
-            this.WindowState = FormWindowState.Minimized;
+            resetButton.Show();
+            startButton.Show();
+            greetingMessage.Show();
         }
     }
 }
