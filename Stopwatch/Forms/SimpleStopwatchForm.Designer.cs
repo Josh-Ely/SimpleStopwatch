@@ -36,12 +36,17 @@
             RefreshGreetingTimer = new System.Windows.Forms.Timer(components);
             MainTimer = new System.Windows.Forms.Timer(components);
             timeElapsedLabel = new Label();
-            simpleStopwatchContextMenuStrip = new ContextMenuStrip(components);
+            SimpleStopwatchContextMenuStrip = new ContextMenuStrip(components);
             saveToolStripMenuItem = new ToolStripMenuItem();
-            saveAsToolStripMenuItem = new ToolStripMenuItem();
-            showOnlyTimeToolStripMenuItem = new ToolStripMenuItem();
             resetToolStripMenuItem = new ToolStripMenuItem();
-            simpleStopwatchContextMenuStrip.SuspendLayout();
+            viewToolStripMenuItem = new ToolStripMenuItem();
+            saveFileToolStripMenuItem = new ToolStripMenuItem();
+            ChangeToolStripMenuItem = new ToolStripMenuItem();
+            CreateToolStripMenuItem = new ToolStripMenuItem();
+            showOnlyTimeToolStripMenuItem = new ToolStripMenuItem();
+            SaveFileDialog = new SaveFileDialog();
+            OpenFileDialog = new OpenFileDialog();
+            SimpleStopwatchContextMenuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // startButton
@@ -107,47 +112,84 @@
             timeElapsedLabel.Text = "00:00:00";
             timeElapsedLabel.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // simpleStopwatchContextMenuStrip
+            // SimpleStopwatchContextMenuStrip
             // 
-            simpleStopwatchContextMenuStrip.Items.AddRange(new ToolStripItem[] { saveToolStripMenuItem, saveAsToolStripMenuItem, showOnlyTimeToolStripMenuItem, resetToolStripMenuItem });
-            simpleStopwatchContextMenuStrip.Name = "contextMenuStrip1";
-            simpleStopwatchContextMenuStrip.Size = new Size(161, 92);
+            SimpleStopwatchContextMenuStrip.Items.AddRange(new ToolStripItem[] { saveToolStripMenuItem, resetToolStripMenuItem, viewToolStripMenuItem, saveFileToolStripMenuItem, showOnlyTimeToolStripMenuItem });
+            SimpleStopwatchContextMenuStrip.Name = "contextMenuStrip1";
+            SimpleStopwatchContextMenuStrip.Size = new Size(169, 114);
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.BackColor = Color.Black;
+            saveToolStripMenuItem.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             saveToolStripMenuItem.ForeColor = Color.White;
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(160, 22);
+            saveToolStripMenuItem.Size = new Size(168, 22);
             saveToolStripMenuItem.Text = "Save";
             saveToolStripMenuItem.Click += SaveToolStripMenuItem_Click;
-            // 
-            // saveAsToolStripMenuItem
-            // 
-            saveAsToolStripMenuItem.BackColor = Color.Black;
-            saveAsToolStripMenuItem.ForeColor = Color.White;
-            saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            saveAsToolStripMenuItem.Size = new Size(160, 22);
-            saveAsToolStripMenuItem.Text = "Save As";
-            saveAsToolStripMenuItem.Click += SaveAsToolStripMenuItem_Click;
-            // 
-            // showOnlyTimeToolStripMenuItem
-            // 
-            showOnlyTimeToolStripMenuItem.BackColor = Color.Black;
-            showOnlyTimeToolStripMenuItem.ForeColor = Color.White;
-            showOnlyTimeToolStripMenuItem.Name = "showOnlyTimeToolStripMenuItem";
-            showOnlyTimeToolStripMenuItem.Size = new Size(160, 22);
-            showOnlyTimeToolStripMenuItem.Text = "Show Only Time";
-            showOnlyTimeToolStripMenuItem.Click += ShowOnlyTimeToolStripMenuItem_Click;
             // 
             // resetToolStripMenuItem
             // 
             resetToolStripMenuItem.BackColor = Color.Black;
+            resetToolStripMenuItem.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             resetToolStripMenuItem.ForeColor = Color.White;
             resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            resetToolStripMenuItem.Size = new Size(160, 22);
+            resetToolStripMenuItem.Size = new Size(168, 22);
             resetToolStripMenuItem.Text = "Reset";
             resetToolStripMenuItem.Click += ResetToolStripMenuItem_Click;
+            // 
+            // viewToolStripMenuItem
+            // 
+            viewToolStripMenuItem.BackColor = Color.Black;
+            viewToolStripMenuItem.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            viewToolStripMenuItem.ForeColor = Color.White;
+            viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            viewToolStripMenuItem.Size = new Size(168, 22);
+            viewToolStripMenuItem.Text = "View ";
+            viewToolStripMenuItem.Click += ViewToolStripMenuItem_Click;
+            // 
+            // saveFileToolStripMenuItem
+            // 
+            saveFileToolStripMenuItem.BackColor = Color.Black;
+            saveFileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ChangeToolStripMenuItem, CreateToolStripMenuItem });
+            saveFileToolStripMenuItem.ForeColor = Color.White;
+            saveFileToolStripMenuItem.Name = "saveFileToolStripMenuItem";
+            saveFileToolStripMenuItem.Size = new Size(168, 22);
+            saveFileToolStripMenuItem.Text = "Save File";
+            // 
+            // ChangeToolStripMenuItem
+            // 
+            ChangeToolStripMenuItem.BackColor = Color.Black;
+            ChangeToolStripMenuItem.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            ChangeToolStripMenuItem.ForeColor = Color.White;
+            ChangeToolStripMenuItem.Name = "ChangeToolStripMenuItem";
+            ChangeToolStripMenuItem.Size = new Size(169, 22);
+            ChangeToolStripMenuItem.Text = "Change";
+            ChangeToolStripMenuItem.Click += ChangeToolStripMenuItem_Click;
+            // 
+            // CreateToolStripMenuItem
+            // 
+            CreateToolStripMenuItem.BackColor = Color.Black;
+            CreateToolStripMenuItem.ForeColor = Color.White;
+            CreateToolStripMenuItem.Name = "CreateToolStripMenuItem";
+            CreateToolStripMenuItem.Size = new Size(169, 22);
+            CreateToolStripMenuItem.Text = "Create a New One";
+            CreateToolStripMenuItem.Click += CreateToolStripMenuItem_Click;
+            // 
+            // showOnlyTimeToolStripMenuItem
+            // 
+            showOnlyTimeToolStripMenuItem.BackColor = Color.Black;
+            showOnlyTimeToolStripMenuItem.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            showOnlyTimeToolStripMenuItem.ForeColor = Color.White;
+            showOnlyTimeToolStripMenuItem.Name = "showOnlyTimeToolStripMenuItem";
+            showOnlyTimeToolStripMenuItem.Size = new Size(168, 22);
+            showOnlyTimeToolStripMenuItem.Text = "Show Only Time";
+            showOnlyTimeToolStripMenuItem.Click += ShowOnlyTimeToolStripMenuItem_Click;
+            // 
+            // SaveFileDialog
+            // 
+            SaveFileDialog.DefaultExt = "txt";
+            SaveFileDialog.Filter = "Text Files (*.txt)|*.txt";
             // 
             // SimpleStopwatchForm
             // 
@@ -155,7 +197,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(293, 163);
-            ContextMenuStrip = simpleStopwatchContextMenuStrip;
+            ContextMenuStrip = SimpleStopwatchContextMenuStrip;
             Controls.Add(greetingMessage);
             Controls.Add(timeElapsedLabel);
             Controls.Add(resetButton);
@@ -168,7 +210,8 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Simple Stopwatch";
             Load += StopWatch_Load;
-            simpleStopwatchContextMenuStrip.ResumeLayout(false);
+            Shown += SimpleStopwatchForm_Shown;
+            SimpleStopwatchContextMenuStrip.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -180,10 +223,15 @@
         private Label greetingMessage;
         private System.Windows.Forms.Timer MainTimer;
         private Label timeElapsedLabel;
-        private ContextMenuStrip simpleStopwatchContextMenuStrip;
+        private ContextMenuStrip SimpleStopwatchContextMenuStrip;
         private ToolStripMenuItem saveToolStripMenuItem;
-        private ToolStripMenuItem saveAsToolStripMenuItem;
         private ToolStripMenuItem showOnlyTimeToolStripMenuItem;
         private ToolStripMenuItem resetToolStripMenuItem;
+        private ToolStripMenuItem viewToolStripMenuItem;
+        private ToolStripMenuItem saveFileToolStripMenuItem;
+        private ToolStripMenuItem ChangeToolStripMenuItem;
+        private ToolStripMenuItem CreateToolStripMenuItem;
+        private SaveFileDialog SaveFileDialog;
+        private OpenFileDialog OpenFileDialog;
     }
 }

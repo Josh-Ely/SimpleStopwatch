@@ -1,4 +1,4 @@
-namespace SimpleStopwatch
+namespace SimpleStopwatch.Classes
 {
     internal static class Program
     {
