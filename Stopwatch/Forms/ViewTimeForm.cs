@@ -22,6 +22,7 @@
             // gets all lines from the save file into a list and sets it equal to the savedTimeList
             List<string> savedTimeList = File.ReadAllLines(SaveFile).ToList();
 
+            // reverses the list so the most recent values are shown first
             savedTimeList.Reverse();
 
             // returns list
@@ -49,6 +50,7 @@
                     // adds values to the data grid
                     viewTimeDataGrid.Rows.Add(date, timeWorked);
 
+                    // increases totalItems by one
                     totalItems++;
                 }
             }
@@ -58,19 +60,26 @@
 
         private void ViewTimeForm_Load(object sender, EventArgs e)
         {
-            // checks if the save file exists when the form first loads
-            if (File.Exists(SaveFile))
+            try
             {
-                // gets a list of saved time
-                List<string> savedTimeList = GetSavedTime();
+                // checks if the save file exists when the form first loads
+                if (File.Exists(SaveFile))
+                {
+                    // gets a list of saved time
+                    List<string> savedTimeList = GetSavedTime();
 
-                // adds values from the list onto the data grid
-                AddTimeToDataGrid(savedTimeList);
+                    // adds values from the list onto the data grid
+                    AddTimeToDataGrid(savedTimeList);
+                }
+                else
+                {
+                    // inform the user the save file was not found 
+                    MessageBox.Show("Unable to display previous records because the save file was not found.", "Save File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // inform the user the save file was not found 
-                MessageBox.Show("Unable to display time because the save file was not found.", "Save File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An unexpected error has occurred. Try again.\n\nError: {ex.Message}", "Unexpected Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

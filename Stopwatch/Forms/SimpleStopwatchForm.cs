@@ -113,37 +113,50 @@ namespace SimpleStopwatch
             // gets the path to the save file
             string saveFile = Properties.Settings.Default.FilePath;
 
-            // checks if the save file is null
-            if (!string.IsNullOrEmpty(saveFile))
+            try
             {
-                // saves time to the file
-                SaveTime(saveFile);
-            }
-            else
-            {
-                // if so, inform the user that a save file needs to be created in order to save time
-                DialogResult messageBoxResult = MessageBox.Show("In order to save time, a save file must be created.\nClick 'OK' to create a new save file.", "Save File", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                if (messageBoxResult == DialogResult.OK)
+                // checks if the save file exists
+                if (File.Exists(saveFile))
                 {
-                    // show the save file dialog
-                    DialogResult saveFileDialogResult = SaveFileDialog.ShowDialog();
-
-                    // checks if the user click 'OK' on the save file dialog
-                    if (saveFileDialogResult == DialogResult.OK)
-                    {
-                        using FileStream fileStream = File.Create(SaveFileDialog.FileName);
-                        SaveFilePathSetting(SaveFileDialog.FileName);
-                    }
-
-                    // gets the path to the new save file
-                    string newSaveFile = Properties.Settings.Default.FilePath;
-
-                    // saves time to the new file
-                    SaveTime(newSaveFile);
+                    // saves time to the file
+                    SaveTime(saveFile);
                 }
+                else
+                {
+                    // if not, inform the user that a save file needs to be created in order to save time
+                    DialogResult messageBoxResult = MessageBox.Show("In order to save time, a save file must be created.\nClick 'OK' to create a new save file.", "Save File", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                    if (messageBoxResult == DialogResult.OK)
+                    {
+                        // shows the save file dialog
+                        DialogResult saveFileDialogResult = SaveFileDialog.ShowDialog();
+
+                        if (saveFileDialogResult == DialogResult.OK)
+                        {
+                            // creates the new file
+                            using FileStream fileStream = File.Create(SaveFileDialog.FileName);
+
+                            // saves the path to the save file
+                            SaveFilePathSetting(SaveFileDialog.FileName);
+                        }
+
+                        // gets the path to the new save file
+                        string newSaveFile = Properties.Settings.Default.FilePath;
+
+                        // saves time to the new file
+                        SaveTime(newSaveFile);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error has occurred. Try again.\n\nError: {ex.Message}", "Unexpected Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        /// <summary>
+        /// writes the elasped time to the save file
+        /// </summary>
+        /// <param name="saveFile"></param>
         private void SaveTime(string saveFile)
         {
             using StreamWriter writer = new(saveFile, true);
@@ -190,59 +203,102 @@ namespace SimpleStopwatch
             greetingMessage.Show();
         }
 
+        /// <summary>
+        /// checks if the save file exists after the form is shown
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SimpleStopwatchForm_Shown(object sender, EventArgs e)
         {
+            // gets the path to the save file
             string filePath = Properties.Settings.Default.FilePath;
 
-            if (string.IsNullOrEmpty(filePath))
+            // checks if the file exists
+            if (!File.Exists(filePath))
             {
+                // informs the user that a save file is needed to save elasped time 
                 DialogResult messageBoxResult = MessageBox.Show("Want to save your time?\nClick 'OK' to create a new save file.", "Save File", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (messageBoxResult == DialogResult.OK)
                 {
-
+                    // displays the save file dialog
                     DialogResult saveFileDialogResult = SaveFileDialog.ShowDialog();
 
                     if (saveFileDialogResult == DialogResult.OK)
                     {
+                        // creates the new file
                         using FileStream fileStream = File.Create(filePath);
+
+                        // saves the path to the save file
                         SaveFilePathSetting(SaveFileDialog.FileName);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// shows the ViewTimeForm
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // creates a new instance of the View Time Form and passes the path of the save file
             ViewTimeForm viewTimeForm = new ViewTimeForm(Properties.Settings.Default.FilePath);
+
+            // shows the form
             viewTimeForm.Show();
         }
 
+        /// <summary>
+        /// allows the user to change the save file 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChangeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // displays the open file dialog
             DialogResult openFileDialogResult = OpenFileDialog.ShowDialog();
 
             if (openFileDialogResult == DialogResult.OK)
             {
+                // saves the path of the updated file
                 SaveFilePathSetting(OpenFileDialog.FileName);
             }
         }
 
+        /// <summary>
+        /// allows the user to create a new save file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CreateToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // displays the file save dialog 
             DialogResult saveFileDialogResult = SaveFileDialog.ShowDialog();
 
             if (saveFileDialogResult == DialogResult.OK)
             {
+                // gets the name of the file the user created
                 string filePath = SaveFileDialog.FileName;
 
+                // creates the file
                 using FileStream fileStream = File.Create(filePath);
+
+                // saves the path of the file
                 SaveFilePathSetting(filePath);
             }
         }
 
+        /// <summary>
+        /// updates the FilePath settings variable to the passed value
+        /// </summary>
+        /// <param name="filePath"></param>
         private static void SaveFilePathSetting(string filePath)
         {
+            // sets the value of the FilePath variable
             Properties.Settings.Default.FilePath = filePath;
+
+            // saves the value
             Properties.Settings.Default.Save();
         }
     }
