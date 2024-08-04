@@ -4,7 +4,7 @@ throughout the day to see if the elasped time has reached eight hours. SimpleSto
 the user interface. The word "Simple" is used because the stopwatch does not display milliseconds. Thus giving the UI a more sleek appearance
 as the time ticks. 
 
-Features:
-Start, pause, and reset buttons.
-Right click options: Save, view, save file, show only time, and reset.
+Features:<br />
+Start, pause, and reset buttons.<br />
+Right click options: Save, view, save file, show only time, and reset.<br />
 Greeting based on the time of day
