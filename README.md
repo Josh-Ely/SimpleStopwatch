@@ -7,4 +7,5 @@ as the time ticks.
 Features:<br />
 Start, pause, and reset buttons.<br />
 Right click options: Save, view, save file, show only time, and reset.<br />
-Greeting based on the time of day
+Greeting based on the time of day.<br /> <br />
+![Screenshot_SimpleStopwatch](https://github.com/user-attachments/assets/02b1aae1-631a-4169-8766-61556c33b74c)
