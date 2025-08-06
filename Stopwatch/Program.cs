@@ -1,4 +1,6 @@
-namespace SimpleStopwatch.Classes
+using SimpleStopwatch.Forms;
+
+namespace SimpleStopwatch
 {
     internal static class Program
     {
@@ -14,7 +16,7 @@ namespace SimpleStopwatch.Classes
                 ApplicationConfiguration.Initialize();
 
                 // starts the application with the main form
-                Application.Run(new SimpleStopwatchForm());
+                Application.Run(new MainForm());
             }
             catch (Exception ex)
             {
