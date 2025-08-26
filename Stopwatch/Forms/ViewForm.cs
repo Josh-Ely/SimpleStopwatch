@@ -31,9 +31,7 @@ namespace SimpleStopwatch.Forms
             try
             {
                 TimeLogs = DatabaseHelper.GetTimeLogs(DbPath);
-
-                AddRows();
-                TotalWorked();
+                rangeComboBox.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -44,13 +42,13 @@ namespace SimpleStopwatch.Forms
         /// <summary>
         /// adds rows to the data frid
         /// </summary>
-        private void AddRows()
+        private void AddRows(List<TimeLog> timeLogs)
         {
             // clears any existing rows
             timeLogsDataGrid.Rows.Clear();
 
             // loops through time logs
-            foreach (var timeLog in TimeLogs)
+            foreach (var timeLog in timeLogs)
             {
                 // gets only the date portion 
                 string saveAt = timeLog.SavedAt.Split(' ')[0].Trim();
@@ -67,7 +65,7 @@ namespace SimpleStopwatch.Forms
         /// calculates the total time for this week
         /// Monday - Sunday
         /// </summary>
-        private void TotalWorked()
+        private void DisplayTimeWorkedThisWeek(bool skipAddingRows)
         {
             // current date
             DateTime now = DateTime.Now;
@@ -80,8 +78,33 @@ namespace SimpleStopwatch.Forms
             // gets logs for the current week
             var weeklyLogs = TimeLogs.Where(log => DateTime.TryParse(log.SavedAt, out var savedAt) && savedAt >= weekStart).ToList();
 
+            if (!skipAddingRows)
+                AddRows(weeklyLogs);
+
+            UpdateSumLabel(weeklyLogs, "This week");
+        }
+
+        /// <summary>
+        /// displays all time logs and calculates the total time
+        /// </summary>
+        /// <param name="skipAddingRows"></param>
+        private void DiplayTimeWorkedAllTime(bool skipAddingRows)
+        {
+            if (!skipAddingRows)
+                AddRows(TimeLogs);
+
+            UpdateSumLabel(TimeLogs, "All time");
+        }
+
+        /// <summary>
+        /// updates the label to display the total time for the given time logs
+        /// </summary>
+        /// <param name="timeLogs"></param>
+        /// <param name="labelText"></param>
+        private void UpdateSumLabel(List<TimeLog> timeLogs, string labelText)
+        {
             // sums up the total number of seconds
-            double totalSeconds = weeklyLogs.Sum(log => log.ElapsedSeconds);
+            double totalSeconds = timeLogs.Sum(log => log.ElapsedSeconds);
 
             // convert to TimeSpan
             TimeSpan totalTime = TimeSpan.FromSeconds(totalSeconds);
@@ -90,7 +113,7 @@ namespace SimpleStopwatch.Forms
             string formatted = TimeLog.FormatTimeSpan(totalTime);
 
             // update label text to display the total
-            timeThisWeekLabel.Text = $"This week: {formatted}";
+            timeThisWeekLabel.Text = $"{labelText}: {formatted}";
         }
 
         /// <summary>
@@ -132,11 +155,19 @@ namespace SimpleStopwatch.Forms
             // get the id associated with the row 
             int id = Convert.ToInt32(selectedRow.Cells["IdColumn"].Value);
 
-            // deletes the time log from the database
-            await DatabaseHelper.DeleteTimeLog(id, DbPath);
+            TimeLog? timeLog = TimeLogs.FirstOrDefault(t => t.Id == id);
+            if (timeLog != null)
+            {
+                // deletes the time log from the database
+                await DatabaseHelper.DeleteTimeLog(timeLog.Id, DbPath);
+                TimeLogs.Remove(timeLog);
 
-            // removes the selected row from the data grid
-            timeLogsDataGrid.Rows.Remove(selectedRow);
+                // removes the selected row from the data grid
+                timeLogsDataGrid.Rows.Remove(selectedRow);
+
+                string selectedRange = rangeComboBox.Text;
+                UpdateDisplayBasedOnSelection(selectedRange, true);
+            }
         }
 
         /// <summary>
@@ -165,14 +196,46 @@ namespace SimpleStopwatch.Forms
                 // update the list of time logs after EditForm is closed
                 TimeLogs = DatabaseHelper.GetTimeLogs(DbPath);
 
-                // display updated time logs
-                AddRows();
-
-                // update total for this week
-                TotalWorked();
+                string selectedRange = rangeComboBox.Text;
+                UpdateDisplayBasedOnSelection(selectedRange, false);
 
                 // reshow this form
                 Show();
+            }
+        }
+
+        /// <summary>
+        /// displays time logs based on the selected range in the combo box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RangeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = rangeComboBox.SelectedIndex;
+            if (selectedIndex < 0)
+            {
+                return;
+            }
+
+            string selectedRange = rangeComboBox.Text;
+            UpdateDisplayBasedOnSelection(selectedRange, false);
+        }
+
+        /// <summary>
+        /// displays time logs based on the selected range
+        /// </summary>
+        /// <param name="selectedRange"></param>
+        /// <param name="skipAddingRows"></param>
+        private void UpdateDisplayBasedOnSelection(string selectedRange, bool skipAddingRows)
+        {
+            switch (selectedRange)
+            {
+                case "This Week":
+                    DisplayTimeWorkedThisWeek(skipAddingRows);
+                    break;
+                case "All Time":
+                    DiplayTimeWorkedAllTime(skipAddingRows);
+                    break;
             }
         }
     }

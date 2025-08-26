@@ -38,6 +38,7 @@
             TimeColumn = new DataGridViewTextBoxColumn();
             timeThisWeekLabel = new Label();
             DeleteAllLinkLabel = new LinkLabel();
+            rangeComboBox = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)timeLogsDataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -65,7 +66,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             timeLogsDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             timeLogsDataGrid.EnableHeadersVisualStyles = false;
-            timeLogsDataGrid.Location = new Point(12, 12);
+            timeLogsDataGrid.Location = new Point(12, 41);
             timeLogsDataGrid.Name = "timeLogsDataGrid";
             timeLogsDataGrid.ReadOnly = true;
             timeLogsDataGrid.RowHeadersVisible = false;
@@ -76,7 +77,7 @@
             dataGridViewCellStyle3.SelectionForeColor = Color.White;
             timeLogsDataGrid.RowsDefaultCellStyle = dataGridViewCellStyle3;
             timeLogsDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            timeLogsDataGrid.Size = new Size(171, 269);
+            timeLogsDataGrid.Size = new Size(171, 240);
             timeLogsDataGrid.TabIndex = 0;
             timeLogsDataGrid.CellDoubleClick += TimeLogsDataGrid_CellDoubleClick;
             timeLogsDataGrid.KeyDown += TimeLogsDataGrid_KeyDown;
@@ -125,12 +126,26 @@
             DeleteAllLinkLabel.Visible = false;
             DeleteAllLinkLabel.LinkClicked += DeleteAllLinkLabel_LinkClicked;
             // 
+            // rangeComboBox
+            // 
+            rangeComboBox.BackColor = Color.Black;
+            rangeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            rangeComboBox.ForeColor = Color.White;
+            rangeComboBox.FormattingEnabled = true;
+            rangeComboBox.Items.AddRange(new object[] { "This Week", "All Time" });
+            rangeComboBox.Location = new Point(12, 12);
+            rangeComboBox.Name = "rangeComboBox";
+            rangeComboBox.Size = new Size(171, 23);
+            rangeComboBox.TabIndex = 3;
+            rangeComboBox.SelectedIndexChanged += RangeComboBox_SelectedIndexChanged;
+            // 
             // ViewForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(194, 307);
+            Controls.Add(rangeComboBox);
             Controls.Add(DeleteAllLinkLabel);
             Controls.Add(timeThisWeekLabel);
             Controls.Add(timeLogsDataGrid);
@@ -139,6 +154,7 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "ViewForm";
+            StartPosition = FormStartPosition.Manual;
             Text = "View";
             Load += ViewTimeForm_Load;
             ((System.ComponentModel.ISupportInitialize)timeLogsDataGrid).EndInit();
@@ -154,5 +170,6 @@
         private DataGridViewTextBoxColumn IdColumn;
         private DataGridViewTextBoxColumn dateColumn;
         private DataGridViewTextBoxColumn TimeColumn;
+        private ComboBox rangeComboBox;
     }
 }

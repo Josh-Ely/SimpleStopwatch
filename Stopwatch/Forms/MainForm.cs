@@ -25,6 +25,7 @@ namespace SimpleStopwatch
         private async void StopWatch_Load(object sender, EventArgs e)
         {
             await InitializeDatabase();
+            ApplySavedSize();
 
             Greeting();
             greetingMessage.Select();
@@ -63,7 +64,7 @@ namespace SimpleStopwatch
         }
 
         /// <summary>
-        /// Allows the user to start, resume, or stop the stopwatch
+        /// allows the user to start, resume, or stop the stopwatch
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -89,7 +90,7 @@ namespace SimpleStopwatch
         }
 
         /// <summary>
-        /// Allows the user to restart the stopwatch
+        /// allows the user to restart the stopwatch
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -111,7 +112,7 @@ namespace SimpleStopwatch
         }
 
         /// <summary>
-        /// Displays a greeting message based on the time of the day
+        /// displays a greeting message based on the time of the day
         /// </summary>
         private void Greeting()
         {
@@ -125,7 +126,7 @@ namespace SimpleStopwatch
 
 
         /// <summary>
-        /// Updates the greeting message 
+        /// updates the greeting message 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -144,7 +145,7 @@ namespace SimpleStopwatch
         }
 
         /// <summary>
-        /// Updates the time elapsed label with the elapsed time from the stopwatch
+        /// updates the time elapsed label with the elapsed time from the stopwatch
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -161,7 +162,7 @@ namespace SimpleStopwatch
         }
 
         /// <summary>
-        /// Saves the elapsed time to the TimeLogs tables
+        /// saves the elapsed time to the TimeLogs tables
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -200,7 +201,7 @@ namespace SimpleStopwatch
         }
 
         /// <summary>
-        /// Only shows the time elapsed label
+        /// only shows the time elapsed label
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -210,7 +211,7 @@ namespace SimpleStopwatch
         }
 
         /// <summary>
-        /// Shows all components (greeting & buttons)
+        /// shows all components (greeting & buttons)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -220,7 +221,7 @@ namespace SimpleStopwatch
         }
 
         /// <summary>
-        /// Hids UI components
+        /// hides UI components
         /// </summary>
         private void HideComponents()
         {
@@ -230,7 +231,7 @@ namespace SimpleStopwatch
         }
 
         /// <summary>
-        /// Shows UI components
+        /// shows UI components
         /// </summary>
         private void ShowComponents()
         {
@@ -240,7 +241,7 @@ namespace SimpleStopwatch
         }
 
         /// <summary>
-        /// Shows the ViewTimeForm
+        /// shows the ViewTimeForm
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -251,6 +252,9 @@ namespace SimpleStopwatch
 
             // creates a new ViewForm
             ViewForm viewTimeForm = new(dbPath);
+
+            // sets its location
+            HandleChildFormLocation(viewTimeForm);
 
             // shows the form
             viewTimeForm.Show();
@@ -264,6 +268,137 @@ namespace SimpleStopwatch
         private void MainForm_Resize(object sender, EventArgs e)
         {
             CenterLabel();
+        }
+
+        /// <summary>
+        /// updates the "Size" variable in the Settings table
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MaintainSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // gets the database path
+            string dbPath = GetDatabasePath();
+
+            // gets the check state of the "Maintain Size" menu item
+            bool isChecked = maintainSizeToolStripMenuItem.Checked;
+            if (isChecked)
+            {
+                // gets the current size of this form
+                string currentSize = $"{Size.Width},{Size.Height}";
+
+                // updates the "Size" variable in the Settings table
+                await DatabaseHelper.InsertSetting("Size", currentSize, dbPath);
+            }
+            else
+            {
+                // removes the value for the "Size" variable in the Settings table
+                await DatabaseHelper.InsertSetting("Size", null, dbPath);
+            }
+        }
+
+        /// <summary>
+        /// changes the size of this form during the load event if the "Size" variable has a value in the Settings table
+        /// </summary>
+        private void ApplySavedSize()
+        {
+            // gets the database path
+            string dbPath = GetDatabasePath();
+            bool checkState = false;
+
+            // gets the "Size" setting from the Settings table
+            var setting = DatabaseHelper.GetSetting("Size", dbPath);
+            if (setting is not null && !string.IsNullOrEmpty(setting.Value))
+            {
+                // splits the width and height values
+                string[] sizeValues = setting.Value.Split(',');
+
+                // converts the width and height values to integers
+                int width = Convert.ToInt32(sizeValues[0]);
+                int height = Convert.ToInt32(sizeValues[1]);
+
+                // sets the size of this form
+                Size size = new(width, height);
+                Size = size;
+
+                checkState = true;
+            }
+
+            // updates the check state of the "Maintain Size" menu item
+            maintainSizeToolStripMenuItem.Checked = checkState;
+        }
+
+        /// <summary>
+        /// shows the AddForm
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // gets the database path
+            string dbPath = GetDatabasePath();
+
+            // creates a new AddForm
+            AddForm addForm = new(dbPath);
+
+            // sets its location
+            HandleChildFormLocation(addForm);
+
+            // shows the form
+            addForm.Show();
+        }
+
+        /// <summary>
+        /// places the main form to the top-left of the screen it is currently on
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PlaceTopLeftToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Find the screen that currently contains the form
+            Screen currentScreen = Screen.FromControl(this);
+
+            // Get the working area
+            Rectangle workingArea = currentScreen.WorkingArea;
+
+            // Move form to the top-left of that screen
+            Location = new Point(workingArea.Left, workingArea.Top);
+        }
+
+        /// <summary>
+        /// sets the location of a child form based on the location of this main form
+        /// </summary>
+        /// <param name="form"></param>
+        private void HandleChildFormLocation(Form form)
+        {
+            int gapBetweenMainAndChild = 10;
+
+            // Get the screen where the main form currently is
+            Screen currentScreen = Screen.FromControl(this);
+            Rectangle workingArea = currentScreen.WorkingArea;
+
+            // Check if it fits on the right
+            int rightPos = this.Right + gapBetweenMainAndChild;
+            if (rightPos + form.Width <= workingArea.Right)
+            {
+                // Place on the right
+                form.Location = new Point(rightPos, this.Top);
+            }
+            else
+            {
+                // Check if it fits on the left
+                int leftPos = this.Left - form.Width - gapBetweenMainAndChild;
+                if (leftPos >= workingArea.Left)
+                {
+                    // Place on the left
+                    form.Location = new Point(leftPos, this.Top);
+                }
+                else
+                {
+                    // Otherwise place center screen
+                    form.StartPosition = FormStartPosition.CenterScreen;
+                }
+            }
         }
     }
 }
