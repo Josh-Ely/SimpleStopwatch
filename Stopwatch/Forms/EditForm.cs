@@ -13,13 +13,33 @@ namespace SimpleStopwatch.Forms
         // ViewForm - used to set the location of this form 
         private ViewForm ViewForm { get; set; }
 
-        public EditForm(int id, string dbPath, ViewForm viewForm)
+        private TimeSpan ExistingTimeSpan { get; set; }
+
+        public EditForm(TimeSpan existingTimeSpan, ViewForm viewForm, int id, string dbPath)
         {
             InitializeComponent();
 
             Id = id;
             DbPath = dbPath;
             ViewForm = viewForm;
+            ExistingTimeSpan = existingTimeSpan;
+        }
+
+        /// <summary>
+        /// set the UpdateButton as the AcceptButton (click enter to activate)
+        /// sets the location of this form to the location from the ViewForm
+        /// displays the TimeSpan values the user is editing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditForm_Load(object sender, EventArgs e)
+        {
+            AcceptButton = UpdateButton;
+            this.Location = ViewForm.Location;
+
+            hourTextBox.Text = ((int)ExistingTimeSpan.TotalHours).ToString();
+            minuteTextBox.Text = ExistingTimeSpan.Minutes.ToString();
+            secondtextBox.Text = ExistingTimeSpan.Seconds.ToString();
         }
 
         /// <summary>
@@ -80,18 +100,6 @@ namespace SimpleStopwatch.Forms
         private void SecondtextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = !char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar);
-        }
-
-        /// <summary>
-        /// set the UpdateButton as the AcceptButton (click enter to activate)
-        /// sets the location of this form to the location from the ViewForm
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void EditForm_Load(object sender, EventArgs e)
-        {
-            AcceptButton = UpdateButton;
-            this.Location = ViewForm.Location;
         }
     }
 }

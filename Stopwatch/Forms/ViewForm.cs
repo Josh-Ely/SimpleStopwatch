@@ -189,8 +189,21 @@ namespace SimpleStopwatch.Forms
                 // get the id associated with the row 
                 int id = Convert.ToInt32(row.Cells["IdColumn"].Value);
 
+                double elapsedSeconds = 0;
+
+                // find the time log using the id
+                var timeLog = TimeLogs.FirstOrDefault(t => t.Id == id);
+                if (timeLog != null)
+                {
+                    // set elapsedSeconds to the found value
+                    elapsedSeconds = timeLog.ElapsedSeconds;
+                }
+
+                // creates a TimeSpan object which is passed to the form and used to display the values the user is editing
+                TimeSpan existingTimeSpan = TimeSpan.FromSeconds(elapsedSeconds);
+
                 // create a new EditForm
-                EditForm editTimeForm = new(id, DbPath, this);
+                EditForm editTimeForm = new(existingTimeSpan, this, id, DbPath);
                 editTimeForm.ShowDialog(); // show the edit form
 
                 // update the list of time logs after EditForm is closed
