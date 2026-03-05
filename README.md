@@ -1,11 +1,17 @@
-As an hourly employee, working a desk job without a set schedule, it can be easy to lose track of time and how long you've been at work.
-This project was created to do just that. After I clock in, I fire up this program and start the stopwatch. Then checking it periodically
-throughout the day to see if the elasped time has reached eight hours. SimpleStopwatch is written completely in C# using Windows Forms as
-the user interface. The word "Simple" is used because the stopwatch does not display milliseconds. Thus giving the UI a more sleek appearance
-as the time ticks. 
+**Simple Stopwatch**<br />
+As an hourly employee without a set schedule, it’s easy to lose track of time at a desk job. I built SimpleStopwatch to solve that problem. After clocking in, I start the app and let it run, checking it throughout the day to see when I’ve reached eight hours.
+<br /> <br /> SimpleStopwatch is written entirely in C# using Windows Forms and stores elapsed time in a local SQLite database. It’s called “Simple” because it doesn’t display milliseconds, giving the UI a cleaner, sleeker look as the time updates.
 
-Features:<br />
-Start, pause, and reset buttons.<br />
-Right click options: Save, view, save file, show only time, and reset.<br />
-Greeting based on the time of day.<br /> <br />
+**Features**
+* Start, Pause, and Reset buttons for managing elapsed time
+* Time based greeting that updates automatically (Good morning, afternoon, or evening)
+* Right click context menu with the following options:
+  - Add – Opens a form to manually add time  
+  - Save – Saves elapsed time to a local SQLite database
+  - View – Displays saved times in a separate form
+    - Double clicking a row allows editing the selected saved time
+  - Maintain Size – Launches the form at its previous size
+  - Place Top Left – Moves the form to the top-left corner of the screen
+  - Show Only Time – Hides buttons and greeting, showing only the running time for a minimal display
+<br /> <br />
 ![Screenshot_SimpleStopwatch](https://github.com/user-attachments/assets/02b1aae1-631a-4169-8766-61556c33b74c)
