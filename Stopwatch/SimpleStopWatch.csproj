@@ -7,6 +7,12 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>SimpleStopWatch.ico</ApplicationIcon>
+    <Company>Josh Ely</Company>
+    <AssemblyTitle>Simple Stopwatch</AssemblyTitle>
+    <Title>Simple Stopwatch</Title>
+    <Description>A Simple Stopwatch Application</Description>
+    <Copyright>© 2026 Josh Ely</Copyright>
+    <Version>1.0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
