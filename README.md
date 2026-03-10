@@ -1,6 +1,6 @@
 **Simple Stopwatch**<br />
 As an hourly employee without a set schedule, it’s easy to lose track of time at a desk job. I built SimpleStopwatch to solve that problem. After clocking in, I start the app and let it run, checking it throughout the day to see when I’ve reached eight hours.
-<br /> <br /> SimpleStopwatch is written entirely in C# using Windows Forms and stores elapsed time in a local SQLite database. It’s called “Simple” because it doesn’t display milliseconds, giving the UI a cleaner, sleeker look as the time updates.
+<br /> <br /> SimpleStopwatch is written entirely in C# using Windows Forms and stores elapsed time in a local SQLite database. It’s called “Simple” because it doesn’t display milliseconds, giving the UI a cleaner look as the time updates.
 
 **Features**
 * Start, Pause, and Reset buttons for managing elapsed time
