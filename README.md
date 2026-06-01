@@ -10,8 +10,7 @@ As an hourly employee without a set schedule, it’s easy to lose track of time 
   - Save – Saves elapsed time to a local SQLite database
   - View – Displays saved times in a separate form
     - Double clicking a row allows editing the selected saved time
-  - Maintain Size – Launches the form at its previous size
   - Place Top Left – Moves the form to the top-left corner of the screen
-  - Show Only Time – Hides buttons and greeting, showing only the running time for a minimal display
+  - Show Only Time – When checked, hides buttons and greeting, showing only the running time for a minimal display
 <br /> <br />
 ![Screenshot_SimpleStopwatch](https://github.com/user-attachments/assets/02b1aae1-631a-4169-8766-61556c33b74c)
