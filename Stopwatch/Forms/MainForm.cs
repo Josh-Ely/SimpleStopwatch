@@ -207,17 +207,15 @@ namespace SimpleStopwatch
         /// <param name="e"></param>
         private void ShowOnlyTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            HideComponents();
-        }
-
-        /// <summary>
-        /// shows all components (greeting & buttons)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ResetToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowComponents();
+            bool isChecked = showOnlyTimeToolStripMenuItem.Checked;
+            if (isChecked)
+            {
+                HideComponents();
+            }
+            else
+            {
+                ShowComponents();
+            }
         }
 
         /// <summary>
@@ -271,40 +269,12 @@ namespace SimpleStopwatch
         }
 
         /// <summary>
-        /// updates the "Size" variable in the Settings table
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void MaintainSizeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // gets the database path
-            string dbPath = GetDatabasePath();
-
-            // gets the check state of the "Maintain Size" menu item
-            bool isChecked = maintainSizeToolStripMenuItem.Checked;
-            if (isChecked)
-            {
-                // gets the current size of this form
-                string currentSize = $"{Size.Width},{Size.Height}";
-
-                // updates the "Size" variable in the Settings table
-                await DatabaseHelper.InsertSetting("Size", currentSize, dbPath);
-            }
-            else
-            {
-                // removes the value for the "Size" variable in the Settings table
-                await DatabaseHelper.InsertSetting("Size", null, dbPath);
-            }
-        }
-
-        /// <summary>
         /// changes the size of this form during the load event if the "Size" variable has a value in the Settings table
         /// </summary>
         private void ApplySavedSize()
         {
             // gets the database path
             string dbPath = GetDatabasePath();
-            bool checkState = false;
 
             // gets the "Size" setting from the Settings table
             var setting = DatabaseHelper.GetSetting("Size", dbPath);
@@ -320,12 +290,7 @@ namespace SimpleStopwatch
                 // sets the size of this form
                 Size size = new(width, height);
                 Size = size;
-
-                checkState = true;
             }
-
-            // updates the check state of the "Maintain Size" menu item
-            maintainSizeToolStripMenuItem.Checked = checkState;
         }
 
         /// <summary>
@@ -399,6 +364,18 @@ namespace SimpleStopwatch
                     form.StartPosition = FormStartPosition.CenterScreen;
                 }
             }
+        }
+
+        private async void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // gets the database path
+            string dbPath = GetDatabasePath();
+
+            // gets the current size of this form
+            string currentSize = $"{Size.Width},{Size.Height}";
+
+            // updates the "Size" variable in the Settings table
+            await DatabaseHelper.InsertSetting("Size", currentSize, dbPath);
         }
     }
 }

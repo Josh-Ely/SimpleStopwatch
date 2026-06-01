@@ -96,6 +96,31 @@ namespace SimpleStopwatch.Forms
             UpdateSumLabel(TimeLogs, "All time");
         }
 
+        private void DisplayTimeWorkedLastWeek(bool skipAddingRows)
+        {
+            DateTime now = DateTime.Now;
+
+            // Monday of the current week
+            int daysSinceMonday = ((int)now.DayOfWeek + 6) % 7;
+            DateTime currentWeekStart = now.Date.AddDays(-daysSinceMonday);
+
+            // Previous week boundaries
+            DateTime previousWeekStart = currentWeekStart.AddDays(-7);
+            DateTime previousWeekEnd = currentWeekStart;
+
+            var weeklyLogs = TimeLogs
+                .Where(log =>
+                    DateTime.TryParse(log.SavedAt, out var savedAt) &&
+                    savedAt >= previousWeekStart &&
+                    savedAt < previousWeekEnd)
+                .ToList();
+
+            if (!skipAddingRows)
+                AddRows(weeklyLogs);
+
+            UpdateSumLabel(weeklyLogs, "Last week");
+        }
+
         /// <summary>
         /// updates the label to display the total time for the given time logs
         /// </summary>
@@ -248,6 +273,9 @@ namespace SimpleStopwatch.Forms
                     break;
                 case "All Time":
                     DiplayTimeWorkedAllTime(skipAddingRows);
+                    break;
+                case "Last Week":
+                    DisplayTimeWorkedLastWeek(skipAddingRows);
                     break;
             }
         }

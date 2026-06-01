@@ -46,6 +46,7 @@
             // 
             timeLogsDataGrid.AllowUserToAddRows = false;
             timeLogsDataGrid.AllowUserToDeleteRows = false;
+            timeLogsDataGrid.AllowUserToResizeRows = false;
             timeLogsDataGrid.BackgroundColor = Color.Black;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = Color.Black;
@@ -59,7 +60,7 @@
             timeLogsDataGrid.Columns.AddRange(new DataGridViewColumn[] { IdColumn, dateColumn, TimeColumn });
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
@@ -76,7 +77,9 @@
             dataGridViewCellStyle3.SelectionBackColor = SystemColors.ActiveCaption;
             dataGridViewCellStyle3.SelectionForeColor = Color.White;
             timeLogsDataGrid.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            timeLogsDataGrid.RowTemplate.Height = 30;
             timeLogsDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            timeLogsDataGrid.ShowCellToolTips = false;
             timeLogsDataGrid.Size = new Size(171, 240);
             timeLogsDataGrid.TabIndex = 0;
             timeLogsDataGrid.CellDoubleClick += TimeLogsDataGrid_CellDoubleClick;
@@ -132,7 +135,7 @@
             rangeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             rangeComboBox.ForeColor = Color.White;
             rangeComboBox.FormattingEnabled = true;
-            rangeComboBox.Items.AddRange(new object[] { "This Week", "All Time" });
+            rangeComboBox.Items.AddRange(new object[] { "This Week", "Last Week", "All Time" });
             rangeComboBox.Location = new Point(12, 12);
             rangeComboBox.Name = "rangeComboBox";
             rangeComboBox.Size = new Size(171, 23);

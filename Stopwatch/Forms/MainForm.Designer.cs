@@ -36,8 +36,6 @@
             addToolStripMenuItem = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
             viewToolStripMenuItem = new ToolStripMenuItem();
-            resetToolStripMenuItem = new ToolStripMenuItem();
-            maintainSizeToolStripMenuItem = new ToolStripMenuItem();
             placeTopLeftToolStripMenuItem = new ToolStripMenuItem();
             showOnlyTimeToolStripMenuItem = new ToolStripMenuItem();
             SaveFileDialog = new SaveFileDialog();
@@ -64,16 +62,16 @@
             // 
             // SimpleStopwatchContextMenuStrip
             // 
-            SimpleStopwatchContextMenuStrip.Items.AddRange(new ToolStripItem[] { addToolStripMenuItem, saveToolStripMenuItem, viewToolStripMenuItem, resetToolStripMenuItem, maintainSizeToolStripMenuItem, placeTopLeftToolStripMenuItem, showOnlyTimeToolStripMenuItem });
+            SimpleStopwatchContextMenuStrip.Items.AddRange(new ToolStripItem[] { addToolStripMenuItem, saveToolStripMenuItem, viewToolStripMenuItem, placeTopLeftToolStripMenuItem, showOnlyTimeToolStripMenuItem });
             SimpleStopwatchContextMenuStrip.Name = "contextMenuStrip1";
-            SimpleStopwatchContextMenuStrip.Size = new Size(169, 158);
+            SimpleStopwatchContextMenuStrip.Size = new Size(169, 114);
             // 
             // addToolStripMenuItem
             // 
             addToolStripMenuItem.BackColor = Color.Black;
             addToolStripMenuItem.ForeColor = Color.White;
             addToolStripMenuItem.Name = "addToolStripMenuItem";
-            addToolStripMenuItem.Size = new Size(168, 22);
+            addToolStripMenuItem.Size = new Size(180, 22);
             addToolStripMenuItem.Text = "Add";
             addToolStripMenuItem.Click += AddToolStripMenuItem_Click;
             // 
@@ -83,7 +81,7 @@
             saveToolStripMenuItem.Font = new Font("Microsoft YaHei UI", 9F);
             saveToolStripMenuItem.ForeColor = Color.White;
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(168, 22);
+            saveToolStripMenuItem.Size = new Size(180, 22);
             saveToolStripMenuItem.Text = "Save";
             saveToolStripMenuItem.Click += SaveToolStripMenuItem_Click;
             // 
@@ -93,46 +91,27 @@
             viewToolStripMenuItem.Font = new Font("Microsoft YaHei UI", 9F);
             viewToolStripMenuItem.ForeColor = Color.White;
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            viewToolStripMenuItem.Size = new Size(168, 22);
+            viewToolStripMenuItem.Size = new Size(180, 22);
             viewToolStripMenuItem.Text = "View ";
             viewToolStripMenuItem.Click += ViewToolStripMenuItem_Click;
-            // 
-            // resetToolStripMenuItem
-            // 
-            resetToolStripMenuItem.BackColor = Color.Black;
-            resetToolStripMenuItem.Font = new Font("Microsoft YaHei UI", 9F);
-            resetToolStripMenuItem.ForeColor = Color.White;
-            resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            resetToolStripMenuItem.Size = new Size(168, 22);
-            resetToolStripMenuItem.Text = "Reset";
-            resetToolStripMenuItem.Click += ResetToolStripMenuItem_Click;
-            // 
-            // maintainSizeToolStripMenuItem
-            // 
-            maintainSizeToolStripMenuItem.BackColor = Color.Black;
-            maintainSizeToolStripMenuItem.CheckOnClick = true;
-            maintainSizeToolStripMenuItem.ForeColor = Color.White;
-            maintainSizeToolStripMenuItem.Name = "maintainSizeToolStripMenuItem";
-            maintainSizeToolStripMenuItem.Size = new Size(168, 22);
-            maintainSizeToolStripMenuItem.Text = "Maintain Size";
-            maintainSizeToolStripMenuItem.Click += MaintainSizeToolStripMenuItem_Click;
             // 
             // placeTopLeftToolStripMenuItem
             // 
             placeTopLeftToolStripMenuItem.BackColor = Color.Black;
             placeTopLeftToolStripMenuItem.ForeColor = Color.White;
             placeTopLeftToolStripMenuItem.Name = "placeTopLeftToolStripMenuItem";
-            placeTopLeftToolStripMenuItem.Size = new Size(168, 22);
+            placeTopLeftToolStripMenuItem.Size = new Size(180, 22);
             placeTopLeftToolStripMenuItem.Text = "Place Top Left";
             placeTopLeftToolStripMenuItem.Click += PlaceTopLeftToolStripMenuItem_Click;
             // 
             // showOnlyTimeToolStripMenuItem
             // 
             showOnlyTimeToolStripMenuItem.BackColor = Color.Black;
+            showOnlyTimeToolStripMenuItem.CheckOnClick = true;
             showOnlyTimeToolStripMenuItem.Font = new Font("Microsoft YaHei UI", 9F);
             showOnlyTimeToolStripMenuItem.ForeColor = Color.White;
             showOnlyTimeToolStripMenuItem.Name = "showOnlyTimeToolStripMenuItem";
-            showOnlyTimeToolStripMenuItem.Size = new Size(168, 22);
+            showOnlyTimeToolStripMenuItem.Size = new Size(180, 22);
             showOnlyTimeToolStripMenuItem.Text = "Show Only Time";
             showOnlyTimeToolStripMenuItem.Click += ShowOnlyTimeToolStripMenuItem_Click;
             // 
@@ -229,6 +208,7 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Simple Stopwatch";
+            FormClosing += MainForm_FormClosing;
             Load += StopWatch_Load;
             Resize += MainForm_Resize;
             SimpleStopwatchContextMenuStrip.ResumeLayout(false);
@@ -243,7 +223,6 @@
         private ContextMenuStrip SimpleStopwatchContextMenuStrip;
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripMenuItem showOnlyTimeToolStripMenuItem;
-        private ToolStripMenuItem resetToolStripMenuItem;
         private ToolStripMenuItem viewToolStripMenuItem;
         private SaveFileDialog SaveFileDialog;
         private OpenFileDialog OpenFileDialog;
@@ -252,7 +231,6 @@
         private Label timeElapsedLabel;
         private Label greetingMessage;
         private TableLayoutPanel tableLayoutPanel1;
-        private ToolStripMenuItem maintainSizeToolStripMenuItem;
         private ToolStripMenuItem addToolStripMenuItem;
         private ToolStripMenuItem placeTopLeftToolStripMenuItem;
     }
